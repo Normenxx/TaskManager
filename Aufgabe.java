@@ -1,25 +1,39 @@
 import java.util.GregorianCalendar;
-public class Aufgabe {
+public class Aufgabe
+{
   private String aufgabentext;
-  private GregorianCalendar datumErstellung;
+  private final GregorianCalendar datumErstellung;
 
-	public Aufgabe()
+  public Aufgabe(String aufgabentext)
   {
-    datumErstellung = new GregorianCalendar();
-	}
+    this.aufgabentext = aufgabentext;
+    this.datumErstellung = new GregorianCalendar();
+    this.erledigt = false;
+  }
 
   public String getAufgabenText()
   {
-    return aufgabentext;
+    return this.ufgabentext;
   }
 
   public void setAufgabenText(String text)
   {
-    aufgabentext = text;
+    this.aufgabentext = text;
   }
 
   public GregorianCalendar getDatumErstellung()
   {
-    return datumErstellung;
+    return this.datumErstellung;
+  }
+
+  public String getDatumErstellungString()
+  {
+    return this.datumErstellung.toString();
+  }
+
+  @Override
+  public String toString()
+  {
+    return "Erstelldatum: " + datumErstellung.toString() + " Text: " + aufgabentext;
   }
 }
