@@ -33,7 +33,6 @@ public class Aufgabe
 
   public void abgelaufenDeadline()
 	{
-    System.out.println("Fehler");
   }
 
   @Override
