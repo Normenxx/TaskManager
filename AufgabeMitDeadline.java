@@ -1,4 +1,5 @@
 import java.util.GregorianCalendar;
+import java.util.Calendar;
 public class AufgabeMitDeadline extends Aufgabe
 {
 	private GregorianCalendar deadline;
@@ -6,7 +7,7 @@ public class AufgabeMitDeadline extends Aufgabe
 	public AufgabeMitDeadline(String aufgabentext, int YEAR, int MONTH, int DAY)
 	{
 		super(aufgabentext);
-		this.deadline = new GergorianCalendar(YEAR,MONTH,DAY);
+		this.deadline = new GregorianCalendar(YEAR,MONTH,DAY);
 	}
 
 	public GregorianCalendar getDeadline()
@@ -26,13 +27,14 @@ public class AufgabeMitDeadline extends Aufgabe
 
 	public void setDeadline(int YEAR, int MONTH, int DAY)
 	{
-		this.deadline = new GergorianCalendar(YEAR,MONTH,DAY);
+		this.deadline = new GregorianCalendar(YEAR,MONTH,DAY);
 	}
 
+	@Override
 	public void abgelaufenDeadline()
 	{
 		GregorianCalendar jetzt = new GregorianCalendar();
-		if (deadline.compareTo(jetzt) > 0)
+		if (deadline.compareTo(jetzt) < 0)
 		{
 			System.out.println(this.getAufgabenText().toUpperCase());
 		}
@@ -41,6 +43,6 @@ public class AufgabeMitDeadline extends Aufgabe
 	@Override
 	public String toString()
 	{
-		return super.toString() + " Deadline: " + deadline.toString();
+		return super.toString() + " Deadline: " +deadline.get(Calendar.DAY_OF_MONTH)+"."+deadline.get(Calendar.MONTH)+"."+deadline.get(Calendar.YEAR);
 	}
 }

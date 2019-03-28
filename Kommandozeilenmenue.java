@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Kommandozeilenmenue
 {
@@ -10,6 +11,8 @@ public class Kommandozeilenmenue
 	public Kommandozeilenmenue()
 	{
 		this.scan = new Scanner(System.in);
+		this.alleKalender = new ArrayList<Kalender>();
+		this.alleKalender.add(new Kalender("Standard"));
 	}
 
 	public void MenueAnzeigen() {
@@ -18,7 +21,7 @@ public class Kommandozeilenmenue
 		System.out.println("2  ) Aufgaben durchsuchen (alle Kalender)");
 		System.out.println("2.1) Aufgaben durchsuchen (bestimmter Kalender)");
 		System.out.println("3  ) Deadline anzeigen");
-		System.out.println("4  ) Neue Aufgabe hinzufügen");
+		System.out.println("4  ) Neue Aufgabe hinzufuegen");
 		System.out.println("5  ) Aufgabe erledigt");
 		System.out.println("6  ) EXIT");
 	}
@@ -31,28 +34,28 @@ public class Kommandozeilenmenue
 			switch(s)
 			{
 				case "1":
-					this.alleAufgabenAnzeigen();
-					break;
-				case "2":
-					this.aufgabeSucheAlle(scan.nextLine());
-					break;
+				this.alleAufgabenAnzeigen();
+				break;
+				case "2":;
+				this.aufgabeSucheAlle(getSuchbegriff());
+				break;
 				case "2.1":
-					this.aufgabeSucheEins(scan.nextLine());
-					break;
+				this.aufgabeSucheEins(getSuchbegriff());
+				break;
 				case "3":
-					this.deadlineAnzeigen();
-					break;
+				this.deadlineAnzeigen();
+				break;
 				case "4":
-					this.aufgabeHinzufuegen();
-					break;
+				this.aufgabeHinzufuegen();
+				break;
 				case "5":
-					this.aufgabeErledigt();
-					break;
+				this.aufgabeErledigt();
+				break;
 				case "6":
-					break;
+				break;
 				default:
-					this.fehler();
-					break;
+				this.fehler();
+				break;
 			}
 		}
 		scan.close();
@@ -62,7 +65,7 @@ public class Kommandozeilenmenue
 	{
 		for(Kalender K : alleKalender)
 		{
-			K.toString();
+			System.out.println(K.toString());
 		}
 	}
 
@@ -70,25 +73,33 @@ public class Kommandozeilenmenue
 	{
 		for(Kalender K: alleKalender)
 		{
-			K.aufgabeSuchen(gesucht);
+			System.out.println(K.aufgabeSuchen(gesucht));
 		}
 	}
 
 	private void aufgabeSucheEins(String gesucht)
 	{
-			int geweahlt = kalenderWaehlen();
-		  alleKalender.get(geweahlt).aufgabeSuchen(gesucht);
+		int geweahlt = kalenderWaehlen();
+		System.out.println(alleKalender.get(geweahlt).aufgabeSuchen(gesucht));
+	}
+
+	private String getSuchbegriff()
+	{
+		System.out.println("Geben Sie einen Suchbegriff ein.");
+		String suchbegriff = scan.nextLine();
+		return suchbegriff;
 	}
 
 	private void deadlineAnzeigen()
 	{
 		for(int i = 0; i < alleKalender.size(); i++)
 		{
-			for(int i2 = 0; i2 < alleKalender.get(i).aufgaben.size(); i2++)
+			for(int i2 = 0; i2 < alleKalender.get(i).getAufgaben().size(); i2++)
 			{
-				if (alleKalender.get(i).aufgabeng.get(i2) instanceof  AufgabeMitDeadline)
+				if (alleKalender.get(i).getAufgaben().get(i2) instanceof  AufgabeMitDeadline)
 				{
-					alleKalender.get(i).abgelaufenDeadline();
+					AufgabeMitDeadline AMD = (AufgabeMitDeadline)alleKalender.get(i).getAufgaben().get(i2);
+				  AMD.abgelaufenDeadline();
 				}
 			}
 		}
@@ -99,25 +110,25 @@ public class Kommandozeilenmenue
 		int geweahlt = kalenderWaehlen();
 
 		System.out.println("Geben Sie der Aufgabe einen Text:");
-		int text = scan.nextInt();
+		String text = scan.nextLine();
 
 		System.out.println("Moechten Sie eine Aufgabe mit einer Deadline erstellen? (1. Ja, 2. Nein)");
-		int eingabe = scan.nextInt();
+		int eingabe = Integer.parseInt(scan.nextLine());
 
-		if(eingabe == 1)
+		if(eingabe == 2)
 		{
-				alleKalender.get(geweahlt).addAufgabe(text);
+			alleKalender.get(geweahlt).addAufgabe(text);
 		}
-		else if (eingabe == 2)
+		else if (eingabe == 1)
 		{
 			System.out.println("Geben Sie das Jahr der Deadline ein:");
-			int jahr = scan.nextInt();
+			int jahr = Integer.parseInt(scan.nextLine());
 
 			System.out.println("Geben Sie den Monat der Deadline ein:");
-			int monat = scan.nextInt();
+			int monat = Integer.parseInt(scan.nextLine());
 
 			System.out.println("Geben Sie den Tag der Deadline ein:");
-			int tag = scan.nextInt();
+			int tag = Integer.parseInt(scan.nextLine());
 
 			alleKalender.get(geweahlt).addAufgabe(text,jahr,monat,tag);
 		}
@@ -142,13 +153,33 @@ public class Kommandozeilenmenue
 
 	private int kalenderWaehlen()
 	{
-		System.out.println("Waehlen Sie einene Kalender aus:");
-		this.kalenderAnzeigen();
-		int auswahl = scan.nextInt();
+		int auswahl = 0;
+		System.out.println("Waehlen Sie einen Kalender aus:");
+		boolean richtig = false;
+		while (!richtig)
+		{
+			this.kalenderAnzeigen();
+			try
+			{
+					auswahl = Integer.parseInt(scan.nextLine());
+					if (auswahl < this.alleKalender.size() && auswahl >= 0)
+					{
+						richtig = true;
+					}
+					else
+					{
+						System.out.println("Geben sie einen gültigen Wert ein");
+					}
+			}
+			catch (Exception e)
+			{
+					System.out.println("Geben sie einen gültigen Wert ein ");
+			}
+		}
 		return auswahl;
 	}
 
-	private int kalenderAnzeigen()
+	private void kalenderAnzeigen()
 	{
 		for(int i = 0; i < alleKalender.size(); i++)
 		{

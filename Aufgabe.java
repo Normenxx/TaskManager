@@ -1,4 +1,5 @@
 import java.util.GregorianCalendar;
+import java.util.Calendar;
 public class Aufgabe
 {
   private String aufgabentext;
@@ -8,12 +9,11 @@ public class Aufgabe
   {
     this.aufgabentext = aufgabentext;
     this.datumErstellung = new GregorianCalendar();
-    this.erledigt = false;
   }
 
   public String getAufgabenText()
   {
-    return this.ufgabentext;
+    return this.aufgabentext;
   }
 
   public void setAufgabenText(String text)
@@ -31,9 +31,14 @@ public class Aufgabe
     return this.datumErstellung.toString();
   }
 
+  public void abgelaufenDeadline()
+	{
+    System.out.println("Fehler");
+  }
+
   @Override
   public String toString()
   {
-    return "Erstelldatum: " + datumErstellung.toString() + " Text: " + aufgabentext;
+    return "Erstelldatum: " + datumErstellung.get(Calendar.DAY_OF_MONTH)+"."+datumErstellung.get(Calendar.MONTH)+"."+ datumErstellung.get(Calendar.YEAR) + " Text: " + aufgabentext;
   }
 }

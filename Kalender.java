@@ -23,32 +23,37 @@ class Kalender
     return this.name;
   }
 
+  public List<Aufgabe> getAufgaben()
+  {
+    return this.aufgaben;
+  }
+
   public void addAufgabe(String aufgabentext)
   {
     Aufgabe neueAufgabe = new Aufgabe(aufgabentext);
-    aufgaben.add(neueAufgabe);
+    this.aufgaben.add(neueAufgabe);
   }
 
   public void addAufgabe(String aufgabentext, int YEAR, int MONTH, int DAY)
   {
-    Aufgabe neueAufgabe = new AufgabeMitDeadline(aufgabentext,YEAR,MONTH,DAY);
-    aufgaben.add(neueAufgabe);
+    AufgabeMitDeadline neueAufgabe = new AufgabeMitDeadline(aufgabentext,YEAR,MONTH,DAY);
+    this.aufgaben.add(neueAufgabe);
   }
 
-  public int removeAufgabe(int index)
+  public void removeAufgabe(int index)
   {
-    aufgaben.remove(index);
+    this.aufgaben.remove(index);
   }
 
   public String aufgabeSuchen(String gesucht)
   {
     String returnstring = "";
 
-    for(Aufgabe A : aufgaben)
+    for(Aufgabe A : this.aufgaben)
     {
       if(A.getAufgabenText().contains(gesucht))
       {
-        returnstring += buildString(A);
+        returnstring = returnstring + buildString(A);
       }
     }
     return returnstring;
@@ -59,9 +64,9 @@ class Kalender
   {
     String returnstring = "";
 
-    for(Aufgabe A : aufgaben)
+    for(Aufgabe A : this.aufgaben)
     {
-      returnstring += buildString(A);
+      returnstring = returnstring + buildString(A);
     }
 
     return returnstring;
@@ -69,6 +74,6 @@ class Kalender
 
   private String buildString(Aufgabe A)
   {
-    return "\n" + this.name + "(" + aufgaben.indexOf(A) + ") " + A.toString();
+    return "\n" + this.name + "(" + this.aufgaben.indexOf(A) + ") " + A.toString();
   }
 }
