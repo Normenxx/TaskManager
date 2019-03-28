@@ -74,6 +74,6 @@ class Kalender
 
   private String buildString(Aufgabe A)
   {
-    return "\n" + this.name + "(" + this.aufgaben.indexOf(A) + ") " + A.toString();
+    return "\nKalender: " + this.name + " AufgabeID: (" + this.aufgaben.indexOf(A) + ") " + A.toString();
   }
 }

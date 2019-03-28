@@ -22,7 +22,9 @@ public class Kommandozeilenmenue
 		System.out.println("2.1) Aufgaben durchsuchen (bestimmter Kalender)");
 		System.out.println("3  ) Deadline anzeigen");
 		System.out.println("4  ) Neue Aufgabe hinzufuegen");
+		System.out.println("4.1) Neuer Kalender hinzufuegen");
 		System.out.println("5  ) Aufgabe erledigt");
+		System.out.println("5.1) Kalender Loeschen");
 		System.out.println("6  ) EXIT");
 	}
 
@@ -48,8 +50,14 @@ public class Kommandozeilenmenue
 				case "4":
 				this.aufgabeHinzufuegen();
 				break;
+				case "4.1":
+				this.kalenderHinzufuegen();
+				break;
 				case "5":
 				this.aufgabeErledigt();
+				break;
+				case "5.1":
+				this.kalenderLoeschen();
 				break;
 				case "6":
 				break;
@@ -138,6 +146,13 @@ public class Kommandozeilenmenue
 		}
 	}
 
+	private void kalenderHinzufuegen()
+	{
+		System.out.println("Geben Sie dem Kalender einen Namen");
+		String text = scan.nextLine();
+		this.alleKalender.add(new Kalender(text));
+	}
+
 	private void aufgabeErledigt()
 	{
 		System.out.println("Waehlen Sie einen Kalender");
@@ -149,6 +164,13 @@ public class Kommandozeilenmenue
 
 		aktKalender.toString();
 		aktKalender.removeAufgabe(scan.nextInt());
+	}
+
+	private void kalenderLoeschen()
+	{
+		System.out.println("Waehlen Sie einen Kalender");
+		int geweahlt = kalenderWaehlen();
+		alleKalender.remove(geweahlt);
 	}
 
 	private int kalenderWaehlen()
@@ -189,7 +211,7 @@ public class Kommandozeilenmenue
 
 	public void fehler()
 	{
-		System.out.println("Sie kuennen nur 1,2,3,4,5 oder 6 eingeben!");
+		System.out.println("Bitte wählen sie einen der obigen Einträge");
 	}
 
 
